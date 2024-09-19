@@ -1,16 +1,5 @@
-FROM golang:1.23-alpine AS builder
+# Use the official Apache HTTP Server image from the Docker Hub
+FROM httpd:latest
 
-RUN mkdir /app
-
-ADD . /app
-
-WORKDIR /app
-
-RUN go build -o main .
-
-FROM alpine AS production
-
-COPY --from=builder /app .
-
-CMD ["./main"]
-
+# Copy a custom 'index.html' into the Apache server's root directory for hosting
+COPY ./index.html /usr/local/apache2/htdocs/
